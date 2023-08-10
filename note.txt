@@ -1,0 +1,11 @@
+- dung histogram de tim % chia binary
+- select channel to process
+
+
+https://github.com/jinyeying/DC-ShadowNet-Hard-and-Soft-Shadow-Removal/blob/main/DCShadowNet_test.py
+
+
+
+#quan trong
+https://pyimagesearch.com/2021/05/12/adaptive-thresholding-with-opencv-cv2-adaptivethreshold/
+https://pyimagesearch.com/2021/04/28/opencv-morphological-operations/
