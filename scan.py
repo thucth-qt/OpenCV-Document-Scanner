@@ -250,13 +250,15 @@ class DocScanner(object):
         return screenCnt.reshape(4, 2)
 
     def interactive_get_contour(self, screenCnt, rescaled_image):
-        poly = Polygon(screenCnt, animated=True, fill=False, color="yellow", linewidth=5)
+        poly = Polygon(screenCnt, animated=True, fill=False, color="red",linewidth=1)
         fig, ax = plt.subplots()
         ax.add_patch(poly)
         ax.set_title(('Drag the corners of the box to the corners of the document. \n'
             'Close the window when finished.'))
         p = poly_i.PolygonInteractor(ax, poly)
-        plt.imshow(rescaled_image)
+        # plt.figure(figsize=(20,10))
+        fig.set_size_inches(14,10)
+        plt.imshow(rescaled_image[:,:,::-1])
         plt.show()
 
         new_points = p.get_poly_points()[:4]
@@ -295,11 +297,14 @@ class DocScanner(object):
         sharpen = cv2.addWeighted(gray, 1.5, sharpen, -0.5, 0)
 
         # apply adaptive threshold to get black and white effect
-        thresh = cv2.adaptiveThreshold(sharpen, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 15)
+        # thresh = cv2.adaptiveThreshold(sharpen, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 21, 15)
+        thresh = sharpen.copy()
+        thresh[thresh<80]=0
+        thresh[thresh>=150]=255
 
         # save the transformed image
         basename = os.path.basename(image_path)
-        cv2.imwrite(OUTPUT_DIR + '/' + basename, thresh)
+        cv2.imwrite(OUTPUT_DIR + '/' + basename, warped)
         print("Proccessed " + basename)
 
 
